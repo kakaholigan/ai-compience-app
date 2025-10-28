@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,34 +15,7 @@ export default function ProfileInput() {
     timeline: "",
   });
 
-  // Make profile readable to the agent
-  useCopilotReadable({
-    description: "User's profile and current situation",
-    value: profile,
-  });
-
-  // Allow agent to update profile
-  useCopilotAction({
-    name: "updateProfile",
-    description: "Update user profile based on conversation",
-    parameters: [
-      {
-        name: "field",
-        type: "string",
-        description: "Profile field to update",
-        required: true,
-      },
-      {
-        name: "value",
-        type: "string",
-        description: "New value for the field",
-        required: true,
-      },
-    ],
-    handler: async ({ field, value }) => {
-      setProfile((prev) => ({ ...prev, [field]: value }));
-    },
-  });
+  // Profile state managed locally
 
   return (
     <Card>
