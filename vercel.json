@@ -3,14 +3,5 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "ANTHROPIC_API_KEY": "@anthropic-api-key",
-    "ZEP_API_KEY": "@zep-api-key",
-    "ZEP_PROJECT_ID": "@zep-project-id",
-    "DATABASE_URL": "@database-url",
-    "PERPLEXITY_API_KEY": "@perplexity-api-key",
-    "PINECONE_API_KEY": "@pinecone-api-key",
-    "NEXT_PUBLIC_APP_URL": "@next-public-app-url"
-  }
+  "regions": ["iad1"]
 }
