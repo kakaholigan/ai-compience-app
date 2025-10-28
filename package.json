@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.30.0",
     "@copilotkit/react-core": "^1.10.0",
     "@copilotkit/react-ui": "^1.10.0",
+    "@copilotkit/runtime": "^1.10.0",
     "@getzep/zep-js": "^2.0.2",
     "@pinecone-database/pinecone": "^3.0.0",
     "@supabase/supabase-js": "^2.45.0",
