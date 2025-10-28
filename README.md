@@ -5,21 +5,27 @@ AI-powered legal guidance for non-US founders setting up companies and raising c
 ## 🚀 Features
 
 - **3 Interactive Layouts**
-  - 📋 Founder Profile Input
-  - 🗺️ Personalized Legal Roadmap
-  - ⚠️ Gap Analysis with Blockers & Solutions
+  - 📋 Founder Profile Input (citizenship, visa, business type, funding, timeline)
+  - 🗺️ Personalized Legal Roadmap (adapts to your profile)
+  - ⚠️ Dynamic Gap Analysis (blockers + solutions specific to YOU)
+
+- **Real-Time Analysis**
+  - Fill profile → Gap analysis updates instantly
+  - Visa-based blockers (No visa vs F-1 vs H-1B = different issues)
+  - Funding-based requirements (SEC Form D if raising > $0)
+  - Business-type specific tasks (Fintech ≠ SaaS ≠ E-commerce)
 
 - **AI-Powered Advisor**
-  - Claude Haiku 4.5 (latest model)
-  - Official forms integration (IRS, Delaware, SEC)
-  - Real-time gap analysis
+  - Claude Haiku 4.5 (Anthropic's latest)
+  - Context-aware: AI knows your profile
+  - Vendor recommendations: Doola, Clerky, Deel, MainStreet, etc.
+  - Official forms ONLY: IRS, Delaware, SEC (no fake docs)
 
 - **Tech Stack**
   - Next.js 14 + TypeScript
-  - CopilotKit (Agent UI framework)
-  - Neon PostgreSQL
-  - Zep Memory + Context
-  - Pinecone Vector DB
+  - Anthropic Claude API
+  - TailwindCSS + Framer Motion
+  - React state management (no DB needed)
 
 ## 🔧 Environment Variables
 
@@ -27,12 +33,6 @@ Required in Vercel:
 
 ```
 ANTHROPIC_API_KEY=your_claude_api_key
-ZEP_API_KEY=your_zep_api_key
-ZEP_PROJECT_ID=your_zep_project_id
-DATABASE_URL=your_neon_postgres_url
-PERPLEXITY_API_KEY=your_perplexity_key
-PINECONE_API_KEY=your_pinecone_key
-NEXT_PUBLIC_APP_URL=your_vercel_url
 ```
 
 ## 📦 Installation
