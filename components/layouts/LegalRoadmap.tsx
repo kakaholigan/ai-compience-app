@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Circle, Clock } from "lucide-react";
@@ -51,36 +50,8 @@ export default function LegalRoadmap() {
     },
   ]);
 
-  useCopilotReadable({
-    description: "User's legal roadmap with current progress",
-    value: roadmap,
-  });
-
-  useCopilotAction({
-    name: "updateRoadmap",
-    description: "Update legal roadmap tasks based on user's situation",
-    parameters: [
-      {
-        name: "phaseId",
-        type: "string",
-        description: "Phase ID to update",
-        required: true,
-      },
-      {
-        name: "tasks",
-        type: "object[]",
-        description: "Array of tasks",
-        required: true,
-      },
-    ],
-    handler: async ({ phaseId, tasks }) => {
-      setRoadmap((prev) =>
-        prev.map((phase) =>
-          phase.id === phaseId ? { ...phase, tasks } : phase
-        )
-      );
-    },
-  });
+  // Roadmap state is managed locally
+  // Can be updated via API calls from chat interface
 
   const getStatusIcon = (status: Task["status"]) => {
     switch (status) {

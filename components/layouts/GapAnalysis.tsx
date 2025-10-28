@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -60,39 +59,8 @@ export default function GapAnalysis() {
     ],
   });
 
-  useCopilotReadable({
-    description: "User's gap analysis showing blockers and requirements",
-    value: analysis,
-  });
-
-  useCopilotAction({
-    name: "updateGapAnalysis",
-    description: "Update gap analysis based on user's profile",
-    parameters: [
-      {
-        name: "blockers",
-        type: "object[]",
-        description: "Critical blockers",
-      },
-      {
-        name: "requirements",
-        type: "object[]",
-        description: "Legal requirements",
-      },
-      {
-        name: "progress",
-        type: "number",
-        description: "Overall progress percentage",
-      },
-    ],
-    handler: async ({ blockers, requirements, progress }) => {
-      setAnalysis({
-        blockers: blockers || analysis.blockers,
-        requirements: requirements || analysis.requirements,
-        progress: progress || analysis.progress,
-      });
-    },
-  });
+  // Gap analysis state is managed locally
+  // Can be updated via API calls from chat interface
 
   const getSeverityColor = (severity: Blocker["severity"]) => {
     switch (severity) {
