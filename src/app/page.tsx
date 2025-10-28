@@ -1,11 +1,37 @@
-import { CopilotKit } from "@copilotkit/react-core";
-import { CopilotChat } from "@copilotkit/react-ui";
-import "@copilotkit/react-ui/styles.css";
+"use client";
+import { useState } from "react";
 
 export default function Home() {
+  const [messages, setMessages] = useState<any[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+    
+    const userMessage = { role: "user", content: input };
+    setMessages([...messages, userMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/copilotkit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [...messages, userMessage] }),
+      });
+      
+      const data = await response.json();
+      setMessages([...messages, userMessage, { role: "assistant", content: data.content[0].text }]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <CopilotKit runtimeUrl="/api/copilotkit">
-      <main className="flex h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <main className="flex h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         {/* 3 Interactive Layouts */}
         <div className="flex-1 grid grid-rows-3 gap-4 p-6">
           {/* Layout 1: Profile Input */}
@@ -85,17 +111,44 @@ export default function Home() {
         </div>
 
         {/* Chat Interface */}
-        <div className="w-96">
-          <CopilotChat
-            labels={{
-              title: "🇺🇸 US Legal Advisor",
-              initial: "Hi! I'm your AI legal advisor. Tell me about your startup plans and I'll create a personalized roadmap for you.",
-              placeholder: "Ask about company formation, visas, fundraising..."
-            }}
-            className="h-full"
-          />
+        <div className="w-96 bg-white/10 backdrop-blur-lg border-l border-white/20 flex flex-col">
+          <div className="p-4 border-b border-white/20">
+            <h2 className="text-xl font-bold text-white">🇺🇸 US Legal Advisor</h2>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.length === 0 && (
+              <p className="text-white/60 text-sm">Hi! I'm your AI legal advisor. Tell me about your startup plans and I'll create a personalized roadmap for you.</p>
+            )}
+            {messages.map((msg, i) => (
+              <div key={i} className={`p-3 rounded-lg ${msg.role === 'user' ? 'bg-purple-500/20 ml-8' : 'bg-white/10 mr-8'}`}>
+                <p className="text-white text-sm">{msg.content}</p>
+              </div>
+            ))}
+            {loading && <p className="text-white/60 text-sm">Thinking...</p>}
+          </div>
+
+          <div className="p-4 border-t border-white/20">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder="Ask about company formation, visas, fundraising..."
+                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40"
+              />
+              <button
+                onClick={sendMessage}
+                disabled={loading}
+                className="px-4 py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-500/50 text-white rounded-lg font-medium"
+              >
+                Send
+              </button>
+            </div>
+          </div>
         </div>
       </main>
-    </CopilotKit>
+    </div>
   );
 }
