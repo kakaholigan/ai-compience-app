@@ -15,7 +15,13 @@ export default function ProfileInput() {
     timeline: "",
   });
 
-  // Profile state managed locally
+  // Sync profile to parent via localStorage for cross-component communication
+  const updateProfile = (updates: Partial<typeof profile>) => {
+    const newProfile = { ...profile, ...updates };
+    setProfile(newProfile);
+    localStorage.setItem('founderProfile', JSON.stringify(newProfile));
+    window.dispatchEvent(new Event('profileUpdated'));
+  };
 
   return (
     <Card>
@@ -32,7 +38,7 @@ export default function ProfileInput() {
             id="citizenship"
             placeholder="e.g., Vietnam, India, China"
             value={profile.citizenship}
-            onChange={(e) => setProfile({ ...profile, citizenship: e.target.value })}
+            onChange={(e) => updateProfile({ citizenship: e.target.value })}
           />
         </div>
 
@@ -40,7 +46,7 @@ export default function ProfileInput() {
           <Label htmlFor="visaStatus">Current US Visa Status</Label>
           <Select
             value={profile.visaStatus}
-            onValueChange={(value) => setProfile({ ...profile, visaStatus: value })}
+            onValueChange={(value) => updateProfile({ visaStatus: value })}
           >
             <SelectTrigger id="visaStatus">
               <SelectValue placeholder="Select visa status" />
@@ -61,7 +67,7 @@ export default function ProfileInput() {
           <Label htmlFor="businessType">Business Type</Label>
           <Select
             value={profile.businessType}
-            onValueChange={(value) => setProfile({ ...profile, businessType: value })}
+            onValueChange={(value) => updateProfile({ businessType: value })}
           >
             <SelectTrigger id="businessType">
               <SelectValue placeholder="Select business type" />
@@ -84,8 +90,11 @@ export default function ProfileInput() {
             type="number"
             placeholder="e.g., 500000"
             value={profile.fundingTarget}
-            onChange={(e) => setProfile({ ...profile, fundingTarget: e.target.value })}
+            onChange={(e) => updateProfile({ fundingTarget: e.target.value })}
           />
+          <p className="text-xs text-muted-foreground">
+            💡 Determines SEC filing requirements (Reg D, Reg CF, etc.)
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -95,8 +104,11 @@ export default function ProfileInput() {
             type="number"
             placeholder="e.g., 6"
             value={profile.timeline}
-            onChange={(e) => setProfile({ ...profile, timeline: e.target.value })}
+            onChange={(e) => updateProfile({ timeline: e.target.value })}
           />
+          <p className="text-xs text-muted-foreground">
+            💡 Helps prioritize urgent tasks and set milestones
+          </p>
         </div>
       </CardContent>
     </Card>
